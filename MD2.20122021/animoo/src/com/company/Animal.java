@@ -38,8 +38,12 @@ public class Animal {
         this.weight = weight;
     }
 
-    @Override
-    public String toString() {
+
+    public Object keySet() {
+        return null;
+    }
+
+    public String display() {
         return "Animal{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
