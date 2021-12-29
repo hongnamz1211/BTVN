@@ -31,6 +31,7 @@ public class Main {
 
     public static void menuCustomer() {
         int choice1;
+        scanner.nextLine();
         do {
             System.out.println("-----Menu Customer-----");
             System.out.println("1. Thêm khách hàng");
@@ -65,6 +66,7 @@ public class Main {
 
     public static void menuBill() {
         int choice2;
+        scanner.nextLine();
         do {
             System.out.println("-----Menu Bill-----");
             System.out.println("1. Thêm số điện");

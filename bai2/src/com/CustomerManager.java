@@ -12,6 +12,7 @@ public class CustomerManager {
     }
 
     public Customer createCustomer() {
+        scanner.nextLine();
         System.out.println("Nhập tên khách hàng");
         String name = scanner.nextLine();
         System.out.println("Nhập số nhà");
