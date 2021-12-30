@@ -18,14 +18,14 @@ public class StudentManager {
         return students;
     }
 
-    public void createStudent() {
+    public Student createStudent() {
         System.out.println("Input id");
         int id = scanner.nextInt();
         for (Student s :
                 students) {
             if (s.getId() == id) {
                 System.out.println("Input again");
-                return;
+                return null;
             }
         }
         System.out.println("Input name");
@@ -43,6 +43,7 @@ public class StudentManager {
         students.add(student);
         writeFile(students, PATH_NAME);
         System.out.println("Add student have name " + name + " successfully");
+        return student;
     }
 
     public Student editStudent(int idS) {
@@ -57,6 +58,13 @@ public class StudentManager {
             int index = students.indexOf(editStudent);
             System.out.println("Input new id");
             int id = scanner.nextInt();
+            for (Student s :
+                    students) {
+                if (s.getId() == id) {
+                    System.out.println("Input again");
+                    return null;
+                }
+            }
             editStudent.setId(id);
             System.out.println("Input new name");
             scanner.nextLine();
