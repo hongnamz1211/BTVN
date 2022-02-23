@@ -13,7 +13,7 @@
 <h2 th:class="notify" th:if="${message} != null">
     <span th:text="${message}"></span>
 </h2>
-<form id="form" th:action="@{/product/{id}(id=${product.getId()})}" th:object="${product}" method="post">
+<form id="form" th:action="@{/product/{id}(id=${product.getId()})}" th:object="${product}" method="post" novalidate="novalidate" enctype="multipart/form-data">
     <label>Name:
         <input type="text" name="name" th:field="*{name}">
     </label>
