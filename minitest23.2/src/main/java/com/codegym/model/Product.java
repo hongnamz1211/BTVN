@@ -33,6 +33,7 @@ public class Product implements Cloneable{
         this.image = image;
     }
 
+
     public int getId() {
         return id;
     }

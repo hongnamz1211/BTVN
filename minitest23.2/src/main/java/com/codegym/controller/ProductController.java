@@ -1,14 +1,19 @@
 package com.codegym.controller;
 
 import com.codegym.model.Product;
+import com.codegym.model.ProductForm;
 import com.codegym.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Controller
@@ -51,7 +56,7 @@ public class ProductController {
         Product product = iProductService.findById(id);
         if (product != null) {
             modelAndView.addObject("product", product);
-        } else  {
+        } else {
             modelAndView.addObject("message", "Id invalid!");
         }
         return modelAndView;
@@ -60,14 +65,22 @@ public class ProductController {
     @GetMapping("/create")
     public ModelAndView createProduct(Model model) {
         ModelAndView modelAndView = new ModelAndView("create");
-        model.addAttribute("product", new Product());
+        model.addAttribute("product", new ProductForm());
         return modelAndView;
     }
 
     @PostMapping
-    public ModelAndView create(@ModelAttribute Product product) {
+    public ModelAndView create(@ModelAttribute ProductForm product) {
+        MultipartFile multipartFile = product.getImage();
+        String fileName = multipartFile.getOriginalFilename();
+        try {
+            FileCopyUtils.copy(product.getImage().getBytes(), new File(fileUpload + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Product product1 = new Product(product.getId(), product.getName(), product.getPrice(), product.getDescription(), fileName);
+        iProductService.save(product1);
         ModelAndView modelAndView = new ModelAndView("create");
-        Product product1 = iProductService.save(product);
         if (product1 != null) {
             modelAndView.addObject("message", "Create successfully!");
         }
@@ -87,12 +100,20 @@ public class ProductController {
     }
 
     @PostMapping("/{id}")
-    public ModelAndView edit(@ModelAttribute Product product, @PathVariable int id) {
+    public ModelAndView edit(@ModelAttribute ProductForm product, @PathVariable int id) {
+        MultipartFile multipartFile = product.getImage();
+        String fileName = multipartFile.getOriginalFilename();
+        try {
+            FileCopyUtils.copy(product.getImage().getBytes(), new File(fileUpload + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ModelAndView modelAndView = new ModelAndView("edit");
-        product.setId(id);
-        Product product1 = iProductService.save(product);
+
+        Product product1 = new Product(id, product.getName(), product.getPrice(), product.getDescription(), fileName);
+        iProductService.save(product1);
         if (product1 != null) {
-            modelAndView.addObject("message", "Update successfully!");
+            modelAndView.addObject("message", "Update successfully");
         }
         return modelAndView;
     }
