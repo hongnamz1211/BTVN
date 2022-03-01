@@ -1,20 +1,29 @@
 package com.codegym.service.impl;
 
 import com.codegym.model.Product;
+import com.codegym.repository.Repository;
 import com.codegym.service.IProductService;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+import java.awt.print.Pageable;
+import java.util.Collections;
 import java.util.List;
 
+@Transactional
 public class HibernateProductServiceImpl implements IProductService {
     private static SessionFactory sessionFactory;
     private static EntityManager entityManager;
+    @Autowired
+    private Repository myRep;
 
     static {
         try {
@@ -38,6 +47,11 @@ public class HibernateProductServiceImpl implements IProductService {
     public Product findById(int id) {
         Product product = entityManager.find(Product.class, id);
         return product;
+    }
+
+    @Override
+    public Product findByName(String name) {
+        return null;
     }
 
     @Override
@@ -85,5 +99,10 @@ public class HibernateProductServiceImpl implements IProductService {
             }
         }
         return null;
+    }
+
+    @Override
+    public Page<Product> findAll(Pageable he) {
+        return myRep.findAll((org.springframework.data.domain.Pageable) he);
     }
 }

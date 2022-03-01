@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit product</title>
+</head>
+<body>
+<h1>Edit product</h1>
+<p>
+    <a href="/home">Product list</a>
+</p>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form th:action="@{/edit-product}" th:object="${product}" method="post" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" th:field="*{name}"/></td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td><input type="text" th:field="*{price}"/></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td><input type="text" th:field="*{description}"/></td>
+        </tr>
+        <tr>
+            <td>Image</td>
+            <td>
+                <img th:src="@{${file} + ${product.get().getImage()}}" alt="Error" src="" width="120" height="120"
+                     style="object-fit: cover">
+                <input type="file" th:field="*{image}">
+            </td>
+        </tr>
+        <tr>
+            <td>Category</td>
+            <td>
+                <!--                <select th:field="*{category}">-->
+                <!--                    <option th:each="c : ${categories}"-->
+                <!--                            th:value="${c.getC_id()}"-->
+                <!--                            th:text="${c.getC_name()}"-->
+                <!--                            th:selected="(${product.get().getCategory()}) and (${c.c_id} == *{category.c_id})">-->
+                <!--                    </option>-->
+
+                <!--                </select>-->
+                <label>
+                    <select th:field="*{category}"/>
+                    <option th:each="c : ${categories}" th:value="${c.c_id}">
+                        <span th:text="${c.c_name}"></span>
+                    </option>
+                    </select>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Update product"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

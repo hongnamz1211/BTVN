@@ -28,6 +28,10 @@ dependencies {
 //upload-file
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
 
+    // https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa
+    implementation group: 'org.springframework.data', name: 'spring-data-jpa', version: '2.6.1'
+
+
 //    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
 //
 //    // https://mvnrepository.com/artifact/org.springframework/spring-webmvc

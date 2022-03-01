@@ -5,6 +5,8 @@ import com.codegym.model.ProductForm;
 import com.codegym.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.awt.print.Pageable;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,17 +28,17 @@ public class ProductController {
     @Autowired
     private IProductService iProductService;
 
-    @GetMapping
-    public ModelAndView showProducts() {
-        ModelAndView modelAndView = new ModelAndView("list");
-        ArrayList<Product> products = (ArrayList<Product>) iProductService.findAll();
-        if (products.isEmpty()) {
-            modelAndView.addObject("message", "No products!");
-            modelAndView.addObject("color", "red");
-        }
-        modelAndView.addObject("products", products);
-        return modelAndView;
-    }
+//    @GetMapping
+//    public ModelAndView showProducts() {
+//        ModelAndView modelAndView = new ModelAndView("list");
+//        ArrayList<Product> products = (ArrayList<Product>) iProductService.findAll();
+//        if (products.isEmpty()) {
+//            modelAndView.addObject("message", "No products!");
+//            modelAndView.addObject("color", "red");
+//        }
+//        modelAndView.addObject("products", products);
+//        return modelAndView;
+//    }
 
     @GetMapping("/delete/{id}")
     public ModelAndView deleteProduct(@PathVariable("id") int id) {
@@ -54,6 +57,26 @@ public class ProductController {
     public ModelAndView showDetail(@PathVariable("id") int id) {
         ModelAndView modelAndView = new ModelAndView("detail");
         Product product = iProductService.findById(id);
+        if (product != null) {
+            modelAndView.addObject("product", product);
+        } else {
+            modelAndView.addObject("message", "Id invalid!");
+        }
+        return modelAndView;
+    }
+
+    @GetMapping("/findAll")
+    public ModelAndView findAll(@PageableDefault(value =  5) Pageable pageable) {
+        ModelAndView modelAndView  = new ModelAndView("list");
+        Page<Product> products = iProductService.findAll(pageable);
+        modelAndView.addObject("products", products);
+        return modelAndView;
+    }
+
+    @GetMapping("/search/{search}")
+    public ModelAndView search(@PathVariable("search") String name) {
+        ModelAndView modelAndView = new ModelAndView("list");
+        Product product = iProductService.findByName(name);
         if (product != null) {
             modelAndView.addObject("product", product);
         } else {
