@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="index.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Product list</h1>
+    <hr>
+    <button class="btn btn-primary" onclick="getProduct()">List product</button>
+    <button class="btn btn-primary" onclick="getCategory()">List category</button>
+    <button class="btn btn-primary" onclick="displayFormCreate()">Create new product</button>
+    <button class="btn btn-primary" onclick="displayFormCreateCate()">Create new category</button>
+    <button class="btn btn-primary" onclick="getProductByPage(0)">Page</button>
+    <hr>
+    <form id="searchForm">
+        <div>
+            <label>
+                <input type="text" id="search" placeholder="Enter a word">
+            </label>
+            <button onclick="searchProduct()">Search</button>
+        </div>
+    </form>
+    <hr>
+    <table hidden id="productList"></table>
+    <div id="displayPage"></div>
+    <table hidden id="categoryList"></table>
+    <hr>
+    <form hidden id="form-category">
+        <div>
+            <label>Name: <input type="text" name="name-category" id="name-category" placeholder="Enter Category"></label>
+        </div>
+        <div>
+            <button type="submit" id="form-button-category" data-bs-dismiss="modal">Submit</button>
+        </div>
+    </form>
+    <form hidden id="form">
+        <div>
+            <label>Name: <input type="text" name="name" id="name" placeholder="Enter Name"></label>
+        </div>
+        <div>
+            <label>Price: <input type="text" name="price" id="price" placeholder="Enter Price"></label>
+        </div>
+        <div>
+            <label>Description: <input type="text" name="description" id="description" placeholder="Enter Description"></label>
+        </div>
+        <div>
+            <label>Image: <input type="file" name="image" id="image" placeholder="Enter Image"></label>
+        </div>
+        <div>Category:
+            <select name="category" id="category">
+            </select>
+        </div>
+        <div>
+            <button type="submit" id="form-button" data-bs-dismiss="modal">Submit</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
